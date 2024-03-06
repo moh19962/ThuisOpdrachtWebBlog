@@ -4,7 +4,7 @@ const cors = require("cors"); //ga eens na waarom deze module wordt gebruikt
 const port = process.env.PORT || 3015;
 const pub = require("./publisher.js");
 require("./consumer.js"); //For starting consumer
-var mongoose = require("mongoose");
+// const BlogPost = require("../models/blogpost");
 const BlogPost = require("../models/blogpost");
 // var comment = mongoose.model("../models/comment.js");
 
@@ -28,10 +28,9 @@ app.delete("/posts/:id", async (req, res) => {
 // Voeg deze route toe voor het opslaan van een nieuwe post
 app.post("/posts/:userId", async (req, res) => {
   const { title, content } = req.body;
-  const userId = 1;
-  // const userId = req.params.userId;
+  const userId = req.params.userId;
   try {
-    const newPost = new blogpost({
+    const newPost = new BlogPost({
       _id: userId, // Gebruik de userId als het unieke ID voor de post
       title,
       content,
