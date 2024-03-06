@@ -31,14 +31,15 @@ app.post("/posts/:userId", async (req, res) => {
   const userId = req.params.userId;
   try {
     const newPost = new BlogPost({
-      _id: userId, // Gebruik de userId als het unieke ID voor de post
+      _id: "5f8d0d55b54764421b7156d9", // Een geldige ObjectId string
       title,
       content,
     });
     await newPost.save(); // Opslaan in de database
     res.status(201).json({ message: "Bericht geplaatst", id: userId });
   } catch (error) {
-    res.status(500).json({ error: "Kon bericht niet plaatsen" });
+    console.error(error); // Dit zal de fout naar de console loggen.
+    res.status(500).json({ error: error.message }); // Dit stuurt de foutmelding terug naar de client.
   }
 });
 

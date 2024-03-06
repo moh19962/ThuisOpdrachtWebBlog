@@ -22,9 +22,8 @@ app.post("/comments/:blogpostId", async (req, res) => {
     await newComment.save();
     res.status(201).json({ message: "Bericht geplaatst", id: userId });
   } catch (error) {
-    res.status(500).json({
-      error: "Kon bericht niet plaatsen",
-    });
+    console.error(error); // Dit zal de fout naar de console loggen.
+    res.status(500).json({ error: error.message }); // Dit stuurt de foutmelding terug naar de client.
   }
 });
 
