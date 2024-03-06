@@ -1,23 +1,10 @@
 var mongoose = require("mongoose");
 
-var blogPostSchema = new mongoose.Schema(
-  {
-    _id: { type: String, required: true, lowercase: true },
-    title: { type: String, required: true },
-  },
-
-  {
-    toObject: { virtuals: true },
-    toJSON: { virtuals: true },
-  }
-);
-
-// Middleware
-blogPostSchema.pre("save", function (next) {
-  console.log("Post will be saved");
-  next();
-  console.log("Post is saved");
+var blogPostSchema = new mongoose.Schema({
+  // _id: { type: String },
+  title: { type: String, required: true },
+  content: { type: String, required: true }, // Zorg ervoor dat dit attribuut overeenkomt met je behoeften
 });
 
-// Registreer het schema bij Mongoose
-mongoose.model("blogPostSchema", blogPostSchema);
+// Registreer het schema bij Mongoose als een model
+module.exports = mongoose.model("BlogPost", blogPostSchema);

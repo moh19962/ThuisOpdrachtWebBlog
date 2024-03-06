@@ -5,8 +5,8 @@ const port = process.env.PORT || 3015;
 const pub = require("./publisher.js");
 require("./consumer.js"); //For starting consumer
 var mongoose = require("mongoose");
-var blogpost = mongoose.model("blogPostSchema");
-var comment = mongoose.model("comment");
+const BlogPost = require("../models/blogpost");
+// var comment = mongoose.model("../models/comment.js");
 
 app.use(cors());
 app.use(express.json());
@@ -23,6 +23,26 @@ app.delete("/posts/:id", async (req, res) => {
     // melding teruggeven
   }
 });
+
+// Route om een POST-verzoek te verwerken
+// Voeg deze route toe voor het opslaan van een nieuwe post
+app.post("/posts/:userId", async (req, res) => {
+  const { title, content } = req.body;
+  const userId = 1;
+  // const userId = req.params.userId;
+  try {
+    const newPost = new blogpost({
+      _id: userId, // Gebruik de userId als het unieke ID voor de post
+      title,
+      content,
+    });
+    await newPost.save(); // Opslaan in de database
+    res.status(201).json({ message: "Bericht geplaatst", id: userId });
+  } catch (error) {
+    res.status(500).json({ error: "Kon bericht niet plaatsen" });
+  }
+});
+
 // app.get('/ophalen',async(req, res,next) => {
 //     try{
 //         await pub('naam ophalen');
